@@ -17,13 +17,11 @@ def get_last_page(url):
 
 
 def extract_job(html):
-    title = html.find("h2", {"class": "fs-body3"}).find("a")["title"]
-    company = html.find("h3", {
-        "class": "fs-body1"
-    }).find_all(
+    title = html.find("h2").find("a")["title"]
+    company, location = html.find("h3").find_all(
         "span", recursive=False)
-    location = company[1].get_text(strip=True)
-    company = company[0].get_text(strip=True)
+    company = company.get_text(strip=True)
+    location = location.get_text(strip=True).strip("-").strip(" \r").strip("\n")
     job_id = html['data-jobid']
 
     return {
